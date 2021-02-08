@@ -34,16 +34,16 @@ exports.createCondominio = async (req, res) => {
   en sequelize como una operacion AND, en este caso se chequea si ya existe un
   registro que contenga el inmueble pb-a con el email example@gmail.com.
    */
-  uniqueColumns.condominios.forEach(field => {
-    clause[field] = req.body[field]
-  })
+  // uniqueColumns.condominios.forEach(field => {
+  //   clause[field] = req.body[field]
+  // })
 
   let newRecord = req.body;
 
   // revisar si el condominio existe
   try {
 
-    const condominio = await Condominio.findOne({ where: clause });
+    const condominio = await Condominio.findOne({ where: {correo: req.body.correo} });
 
     if (condominio === null) {
   

@@ -1,13 +1,10 @@
 const express = require('express');
 
+const verifyToken = require('../auth/verify-token');
+
 const condominioController = require('../controllers/condominioController');
-const propietariosRoutes = require('./ownerRoutes');
-// const debtRouter = require('./debtRoutes');
 
 const router = express.Router();
-
-// router.use('/:CondominioId/propietarios/:PropietarioId', propietariosRoutes);
-// router.use('/:CondominioId/debts', debtRouter);
 
 router.param('CondominioId', (req, res, next, id) => {
   req.condominioID = id;
@@ -25,18 +22,18 @@ router
 
 router
   .route('/:CondominioId')
-  .get(condominioController.getOneCondominio)
-  .patch(condominioController.updateOneCondominio);
+  .get(verifyToken, condominioController.getOneCondominio)
+  .patch(verifyToken, condominioController.updateOneCondominio);
 
 router
   .route('/:CondominioId/propietarios')
-  .get(condominioController.getAllPropietarios)
-  .post(condominioController.createOnePropietario)
+  .get(verifyToken, condominioController.getAllPropietarios)
+  .post(verifyToken, condominioController.createOnePropietario)
 
 router
   .route('/:CondominioId/propietarios/:PropietarioId')
-  .get(condominioController.getOnePropietario)
-  .patch(condominioController.updateOnePropietario)
-  .delete(condominioController.deleteOnePropietario)
+  .get(verifyToken, condominioController.getOnePropietario)
+  .patch(verifyToken, condominioController.updateOnePropietario)
+  .delete(verifyToken, condominioController.deleteOnePropietario)
 
 module.exports = router;

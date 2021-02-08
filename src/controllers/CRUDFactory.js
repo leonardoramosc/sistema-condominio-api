@@ -72,6 +72,7 @@ exports.getOne = Model => async (req, res) => {
     }
   }
 
+
   try {
     const record = await Model.findOne({ where: clause });
 

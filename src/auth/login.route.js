@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const { Condominio } = require('../models')
 const { internalHandler } = require('../utils/errorHandler');
@@ -37,10 +38,10 @@ async function login(req, res) {
         });
       } 
 
-      return res.status(200).json({
-        status: 'success',
-        msg: 'Login!'
-      })
+      // crear json web token
+      const token = jwt.sign({_id: condominio.id}, process.env.TOKEN);
+      
+      res.header('auth-token', token).send(token);
     }
   } catch(err) {
     internalHandler(err, res);
