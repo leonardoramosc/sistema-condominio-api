@@ -1,11 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const { DATABASE, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, ENV } = require('../config/settings');
+const { ENV } = require('../config/settings');
 
-const sequelize = new Sequelize(DATABASE, DB_USER, DB_PASSWORD, {
-    host: DB_HOST,
-    dialect: "postgres",
-    port: DB_PORT,
-    logging: ENV === "development" ? console.log : false
+const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DATABASE}`;
+
+const DB_URL = ENV === "production" ? process.env.DATABASE_URL : connectionString;
+
+const sequelize = new Sequelize(DB_URL, {
+  ssl: ENV === "production"
 });
 
 const models = {
