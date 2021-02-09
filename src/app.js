@@ -12,8 +12,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({ 
   credentials: true,
-  origin: 'http://localhost:4200'
+  origin: '*'
 }));
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    msg: 'connetion succesfull'
+  })
+})
 
 // 3) ROUTES
 app.use('/api/v1/sign-up', signUpRouter);
