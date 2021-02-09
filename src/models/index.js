@@ -6,7 +6,15 @@ const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_P
 const DB_URL = ENV === "production" ? process.env.DATABASE_URL : connectionString;
 
 const sequelize = new Sequelize(DB_URL, {
-  ssl: ENV === "production"
+  dialect: 'postgres',
+  protocol: 'postgres',
+  ssl: true,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 });
 
 const models = {
