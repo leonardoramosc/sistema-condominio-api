@@ -59,14 +59,19 @@ exports.createCondominio = async (req, res) => {
 
       return res.status(201).json({
         status: 'success',
-        condominio: newCondominio.nombre
+        condominio: {
+          id: newCondominio.id,
+          nombre: newCondominio.nombre,
+          correo: newCondominio.correo,
+          password: newCondominio.password
+        }
       });
 
     } else {
   
-      return res.status(409).json({
+      return res.json({
         status: 'fail',
-        msg: `The record already exist.`
+        error: `The record already exist.`
       });
     }
 
