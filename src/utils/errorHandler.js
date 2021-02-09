@@ -1,7 +1,8 @@
 exports.internalHandler = (err, res) => {
-  console.log(err);
-  return res.status(500).json({
+  
+  return res.json({
     status: 'fail',
-    msg: 'internal error'
+    msg: 'Internal Server Error',
+    error: err.message
   })
 }

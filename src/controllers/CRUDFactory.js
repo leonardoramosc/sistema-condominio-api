@@ -1,3 +1,4 @@
+const { resource } = require('../app');
 const { internalHandler } = require('../utils/errorHandler');
 
 exports.getAll = (Model, options) => async (req, res) => {
@@ -77,9 +78,9 @@ exports.getOne = Model => async (req, res) => {
     const record = await Model.findOne({ where: clause });
 
     if(!record){
-      return res.status(404).json({
+      return res.json({
         status: 'fail',
-        msg: 'The record requested does not exist.'
+        error: 'The record requested does not exist.'
       })
     }
 
@@ -142,11 +143,21 @@ exports.createOne = (Model, uniqueCol) => async (req, res) => {
   registro que contenga el inmueble pb-a con el email example@gmail.com.
    */
   uniqueCol.forEach(field => {
-    clause[field] = req.body[field]
+
+    if (field === "CondominioId" && req.params) {
+
+      const param =  Object.keys(req.params)[0];
+      // Object.keys(req.params)[0] es el id del condominio en la ruta
+      // se convierte a numero porque en la base de datos el CondominioId del propietario es de tipo entero
+      clause[field] = parseInt(req.params[param], 10);
+    } else {
+      clause[field] = req.body[field]
+    }
+    
   })
 
   let newRecord = req.body;
-
+  
   if(req.params) {
 
     const param = Object.keys(req.params)[0];
@@ -155,6 +166,7 @@ exports.createOne = (Model, uniqueCol) => async (req, res) => {
       [param]: req.params[param],
       ...req.body
     }
+
   }
 
   try {
@@ -166,9 +178,9 @@ exports.createOne = (Model, uniqueCol) => async (req, res) => {
     });
 
     if(!created){
-      return res.status(409).json({
+      return res.status(200).json({
         status: 'fail',
-        msg: `The record already exist.`
+        error: `The record already exist.`
       });
     }
 

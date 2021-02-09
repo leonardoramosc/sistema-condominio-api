@@ -6,13 +6,11 @@ const propietario = (sequelize, DataTypes) => {
       },
       inmueble: {
           type: DataTypes.STRING(20),
-          allowNull: false,
-          unique: true
+          allowNull: false
       },
       correo: {
           type: DataTypes.STRING(50),
-          allowNull: false,
-          unique: true
+          allowNull: false
       },
       telefono: {
           type: DataTypes.STRING(20)
