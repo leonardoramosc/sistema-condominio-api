@@ -32,7 +32,7 @@ Object.keys(models).forEach(model => {
 
 const uniqueColumns = {
   condominios: ['nombre', 'correo'],
-  propietarios: ['inmueble', 'correo']
+  propietarios: ['inmueble', 'correo', "CondominioId"]
 }
 
 module.exports = {
